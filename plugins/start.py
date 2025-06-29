@@ -215,8 +215,6 @@ async def not_joined(client: Client, message: Message):
                         data = await client.get_chat(chat_id)
                         chat_data_cache[chat_id] = data
 
-                    name = data.title
-
                     # Generate proper invite link based on the mode
                     if mode == "on" and not data.username:
                         invite = await client.create_chat_invite_link(
@@ -235,7 +233,8 @@ async def not_joined(client: Client, message: Message):
                                 expire_date=datetime.utcnow() + timedelta(seconds=FSUB_LINK_EXPIRY) if FSUB_LINK_EXPIRY else None)
                             link = invite.invite_link
 
-                    buttons.append([InlineKeyboardButton(text=Join, url=link)])
+                    # Changed button text to "Join" only
+                    buttons.append([InlineKeyboardButton(text="Join", url=link)])
                     count += 1
                     await temp.edit(f"<b>{'! ' * count}</b>")
 
@@ -246,7 +245,7 @@ async def not_joined(client: Client, message: Message):
                         f"<blockquote expandable><b>Rᴇᴀsᴏɴ:</b> {e}</blockquote>"
                     )
 
-        # Retry Button
+        # Retry Button (unchanged)
         try:
             buttons.append([
                 InlineKeyboardButton(
@@ -274,8 +273,7 @@ async def not_joined(client: Client, message: Message):
         await temp.edit(
             f"<b><i>! Eʀʀᴏʀ, Cᴏɴᴛᴀᴄᴛ ᴅᴇᴠᴇʟᴏᴘᴇʀ ᴛᴏ sᴏʟᴠᴇ ᴛʜᴇ ɪssᴜᴇs @rohit_1888</i></b>\n"
             f"<blockquote expandable><b>Rᴇᴀsᴏɴ:</b> {e}</blockquote>"
-        )
-
+                        )
 #=====================================================================================##
 
 @Bot.on_message(filters.command('commands') & filters.private & admin)
